@@ -876,7 +876,7 @@ struct ImGuiContext
     ImVector<ImGuiPopupData>BeginPopupStack;                    // Which level of BeginPopup() we are in (reset every frame)
     ImGuiNextWindowData     NextWindowData;                     // Storage for SetNextWindow** functions
     void*                   NextItemMultiSelectData;
-    bool                    NextItemMultiSelectDataIsSet;
+    ImGuiID                 NextItemMultiSelectScopeId;
     bool                    NextTreeNodeOpenVal;                // Storage for SetNextTreeNode** functions
     ImGuiCond               NextTreeNodeOpenCond;
 
@@ -1051,7 +1051,7 @@ struct ImGuiContext
         LastValidMousePos = ImVec2(0.0f, 0.0f);
         MovingWindow = NULL;
         NextItemMultiSelectData = NULL;
-        NextItemMultiSelectDataIsSet = false;
+        NextItemMultiSelectScopeId = 0;
         NextTreeNodeOpenVal = false;
         NextTreeNodeOpenCond = 0;
 
