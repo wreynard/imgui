@@ -1227,14 +1227,15 @@ void ImGui::SeparatorEx(ImGuiSeparatorFlags flags)
     else if (flags & ImGuiSeparatorFlags_Horizontal)
     {
         // Horizontal Separator
-        float x1 = window->Pos.x;
-        float x2 = window->Pos.x + window->Size.x;
-        if (!window->DC.GroupStack.empty()) // FIXME-WORKRECT
-            x1 = window->WorkRect.Min.x;
-
+        float x1 = window->WorkRect.Min.x;
+        float x2 = window->WorkRect.Max.x;
         ImGuiColumns* columns = (flags & ImGuiSeparatorFlags_SpanAllColumns) ? window->DC.CurrentColumns : NULL;
         if (columns)
+        {
             PushColumnsBackground();
+            x1 = columns->HostWorkRect.Min.x;
+            x2 = columns->HostWorkRect.Max.x;
+        }
 
         // We don't provide our width to the layout so that it doesn't get feed back into AutoFit
         const ImRect bb(ImVec2(x1, window->DC.CursorPos.y), ImVec2(x2, window->DC.CursorPos.y + thickness_draw));
