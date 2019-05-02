@@ -256,6 +256,7 @@ void ImGui::ShowDemoWindow(bool* p_open)
     // Most "big" widgets share a common width settings by default.
     //ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.65f);    // Use 2/3 of the space for widgets and 1/3 for labels (default)
     ImGui::PushItemWidth(ImGui::GetFontSize() * -12);           // Use fixed width for labels (by passing a negative value), the rest goes to widgets. We choose a width proportional to our font size.
+    //ImGui::PushItemWidth(-1.0f);                              // Right align
 
     // Menu Bar
     if (ImGui::BeginMenuBar())
@@ -2385,9 +2386,11 @@ static void ShowDemoWindowColumns()
     if (ImGui::TreeNode("Basic"))
     {
         ImGui::Text("Without border:");
-        ImGui::Columns(3, "mycolumns3", false);  // 3-ways, no border
+        static int count_columns = 3;
+        ImGui::DragInt("Columns", &count_columns, 0.10f, 1, 8);
         ImGui::Separator();
-        for (int n = 0; n < 14; n++)
+        ImGui::Columns(count_columns, "mycolumns", false);  // N-ways, no border
+        for (int n = 0; n < 16; n++)
         {
             char label[32];
             sprintf(label, "Item %d", n);
@@ -2399,7 +2402,7 @@ static void ShowDemoWindowColumns()
         ImGui::Separator();
 
         ImGui::Text("With border:");
-        ImGui::Columns(4, "mycolumns"); // 4-ways, with border
+        ImGui::Columns(4, "mycolumns2"); // 4-ways, with border
         ImGui::Separator();
         ImGui::Text("ID"); ImGui::NextColumn();
         ImGui::Text("Name"); ImGui::NextColumn();
@@ -2434,13 +2437,17 @@ static void ShowDemoWindowColumns()
         ImGui::Checkbox("horizontal", &h_borders);
         ImGui::SameLine();
         ImGui::Checkbox("vertical", &v_borders);
+        ImGui::SameLine();
+        HelpMarker("Horizontal borders are currently manually created but will be added to columns api soon.");
+
         ImGui::Columns(4, NULL, v_borders);
         for (int i = 0; i < 4 * 3; i++)
         {
             if (h_borders && ImGui::GetColumnIndex() == 0)
                 ImGui::Separator();
-            ImGui::Text("%c%c%c", 'a' + i, 'a' + i, 'a' + i);
+            ImGui::Text("%c%c%c", 'a'+i, 'a'+i, 'a'+i);
             ImGui::Text("Width %.2f", ImGui::GetColumnWidth());
+            //ImGui::Text("WorkWidth %.2f", ImGui::GetContentRegionAvail().x);
             ImGui::Text("Offset %.2f", ImGui::GetColumnOffset());
             ImGui::Text("Long text that is likely to clip");
             ImGui::Button("Button", ImVec2(-1.0f, 0.0f));
