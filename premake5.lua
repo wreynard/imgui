@@ -19,10 +19,10 @@
 			srcDir .. "*.inl",
 			srcDir .. "*.c",
 			srcDir .. "*.cpp",
-			srcDir .. "examples/imgui_impl_dx11.h",
-			srcDir .. "examples/imgui_impl_dx11.cpp",
-			srcDir .. "examples/imgui_impl_win32.h",
-			srcDir .. "examples/imgui_impl_win32.cpp",
+			srcDir .. "backends/imgui_impl_dx11.h",
+			srcDir .. "backends/imgui_impl_dx11.cpp",
+			srcDir .. "backends/imgui_impl_win32.h",
+			srcDir .. "backends/imgui_impl_win32.cpp",
 		}
 
 		includedirs { srcDir }
